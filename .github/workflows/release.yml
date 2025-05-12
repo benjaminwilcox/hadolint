@@ -56,7 +56,7 @@ jobs:
         run: mkdir -p "$HOME/.local/bin"
         shell: bash
 
-      
+
       - run: echo "HOME=$HOME" >> $GITHUB_ENV
         shell: bash
 
@@ -80,7 +80,7 @@ jobs:
       - name: Strip
         run: strip ~/.local/bin/hadolint
         shell: bash
-       
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -179,8 +179,8 @@ jobs:
           target: base
           push: true
           tags: |
-            ghcr.io/hadolint/hadolint:${{github.sha}}-${{matrix.target}}
-            hadolint/hadolint:${{github.sha}}-${{matrix.target}}
+            ghcr.io/benjaminwilcox/hadolint:${{github.sha}}-${{matrix.target}}
+            benjaminwilcox/hadolint:${{github.sha}}-${{matrix.target}}
 
       - name: Push Docker Image Debian
         uses: docker/build-push-action@v6
@@ -286,7 +286,7 @@ jobs:
             ${{ matrix.registry }}:latest-debian \
             ${{ matrix.registry }}:${{github.sha}}-debian-amd64 \
             ${{ matrix.registry }}:${{github.sha}}-debian-arm64
-          
+
           docker manifest push ${{ matrix.registry }}:latest-debian
 
           if [ -n "${{ steps.build-opts.outputs.tag }}" ]; then
