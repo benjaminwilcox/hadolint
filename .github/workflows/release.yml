@@ -247,9 +247,6 @@ jobs:
 
       - name: Push scratch image
         run: |
-          docker pull ${{ matrix.registry }}:${{github.sha}}-amd64
-          docker pull ${{ matrix.registry }}:${{github.sha}}-debian-arm64
-
           docker manifest create \
             ${{ matrix.registry }}:latest \
             ${{ matrix.registry }}:${{github.sha}}-amd64 \
@@ -268,7 +265,6 @@ jobs:
 
       - name: Push alpine image
         run: |
-          docker pull ${{ matrix.registry }}:${{github.sha}}-alpine-amd64
           docker tag ${{ matrix.registry }}:${{github.sha}}-alpine-amd64 ${{ matrix.registry }}:alpine
           docker push ${{ matrix.registry }}:latest-alpine
 
@@ -279,9 +275,6 @@ jobs:
 
       - name: Push debian image
         run: |
-          docker pull ${{ matrix.registry }}:${{github.sha}}-debian-amd64
-          docker pull ${{ matrix.registry }}:${{github.sha}}-debian-arm64
-
           docker manifest create \
             ${{ matrix.registry }}:latest-debian \
             ${{ matrix.registry }}:${{github.sha}}-debian-amd64 \
