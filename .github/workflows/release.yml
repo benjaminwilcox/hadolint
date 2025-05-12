@@ -180,7 +180,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/benjaminwilcox/hadolint:${{github.sha}}-${{matrix.target}}
-            benjaminwilcox/hadolint:${{github.sha}}-${{matrix.target}}
+            snuwur/hadolint:${{github.sha}}-${{matrix.target}}
 
       - name: Push Docker Image Debian
         uses: docker/build-push-action@v6
@@ -191,8 +191,8 @@ jobs:
           target: debian
           push: true
           tags: |
-            ghcr.io/hadolint/hadolint:${{github.sha}}-debian-${{matrix.target}}
-            hadolint/hadolint:${{github.sha}}-debian-${{matrix.target}}
+            ghcr.io/benjaminwilcox/hadolint:${{github.sha}}-debian-${{matrix.target}}
+            snuwur/hadolint:${{github.sha}}-debian-${{matrix.target}}
 
       - name: Push Docker Image Alpine
         uses: docker/build-push-action@v6
@@ -204,15 +204,15 @@ jobs:
           target: alpine
           push: true
           tags: |
-            ghcr.io/hadolint/hadolint:${{github.sha}}-alpine-${{matrix.target}}
-            hadolint/hadolint:${{github.sha}}-alpine-${{matrix.target}}
+            ghcr.io/benjaminwilcox/hadolint:${{github.sha}}-alpine-${{matrix.target}}
+            snuwur/hadolint:${{github.sha}}-alpine-${{matrix.target}}
 
   docker-release:
     needs: docker
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        registry: ["ghcr.io/hadolint/hadolint", "hadolint/hadolint"]
+        registry: ["ghcr.io/benjaminwilcox/hadolint", "snuwur/hadolint"]
     permissions:
       contents: read
       packages: write
@@ -349,7 +349,7 @@ jobs:
 
         sha256sum -b hadolint-linux-x86_64 > hadolint-linux-x86_64.sha256
         sha256sum -b hadolint-linux-arm64 > hadolint-linux-arm64.sha256
-        sha256sum -b hadolint--x86_64 > hadolint-macos-x86_64.sha256
+        sha256sum -b hadolint-macos-x86_64 > hadolint-macos-x86_64.sha256
         sha256sum -b hadolint-macos-arm64 > hadolint-macos-arm64.sha256
         sha256sum -b hadolint-windows-x86_64.exe > hadolint-windows-x86_64.exe.sha256
 
