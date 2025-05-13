@@ -171,7 +171,7 @@ jobs:
 
       - name: Push Docker Image Scratch
         uses: docker/build-push-action@v6
-        if: matrix.target == 'amd64'
+       # if: matrix.target == 'amd64'
         with:
           context: ${{matrix.target}}
           file: docker/Dockerfile
@@ -196,7 +196,7 @@ jobs:
 
       - name: Push Docker Image Alpine
         uses: docker/build-push-action@v6
-        if: matrix.target == 'amd64'
+       # if: matrix.target == 'amd64'
         with:
           context: ${{matrix.target}}
           file: docker/Dockerfile
