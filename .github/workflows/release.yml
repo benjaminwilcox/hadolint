@@ -248,7 +248,7 @@ jobs:
       - name: Push scratch image
         run: |
           docker pull ${{ matrix.registry }}:${{github.sha}}-amd64
-          docker pull ${{ matrix.registry }}:${{github.sha}}-debian-arm64
+          docker pull --platform=linux/arm64 ${{ matrix.registry }}:${{github.sha}}-debian-arm64
 
           docker manifest create \
             ${{ matrix.registry }}:latest \
@@ -280,7 +280,7 @@ jobs:
       - name: Push debian image
         run: |
           docker pull ${{ matrix.registry }}:${{github.sha}}-debian-amd64
-          docker pull ${{ matrix.registry }}:${{github.sha}}-debian-arm64
+          docker pull --platform=linux/arm64 ${{ matrix.registry }}:${{github.sha}}-debian-arm64
 
           docker manifest create \
             ${{ matrix.registry }}:latest-debian \
