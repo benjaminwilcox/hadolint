@@ -171,7 +171,7 @@ jobs:
 
       - name: Push Docker Image Scratch
         uses: docker/build-push-action@v6
-        if: matrix.target == 'amd64'
+       # if: matrix.target == 'amd64'
         with:
           context: ${{matrix.target}}
           file: docker/Dockerfile
@@ -196,7 +196,7 @@ jobs:
 
       - name: Push Docker Image Alpine
         uses: docker/build-push-action@v6
-        if: matrix.target == 'amd64'
+      # if: matrix.target == 'amd64'
         with:
           context: ${{matrix.target}}
           file: docker/Dockerfile
@@ -248,12 +248,12 @@ jobs:
       - name: Push scratch image
         run: |
           docker pull ${{ matrix.registry }}:${{github.sha}}-amd64
-          docker pull --platform=linux/arm64 ${{ matrix.registry }}:${{github.sha}}-debian-arm64
+          docker pull --platform=linux/arm64 ${{ matrix.registry }}:${{github.sha}}-arm64
 
           docker manifest create \
             ${{ matrix.registry }}:latest \
             ${{ matrix.registry }}:${{github.sha}}-amd64 \
-            ${{ matrix.registry }}:${{github.sha}}-debian-arm64
+            ${{ matrix.registry }}:${{github.sha}}-arm64
 
           docker manifest push ${{ matrix.registry }}:latest
 
@@ -261,7 +261,7 @@ jobs:
             docker manifest create \
               ${{ matrix.registry }}:v${{ steps.build-opts.outputs.tag }} \
               ${{ matrix.registry }}:${{github.sha}}-amd64 \
-              ${{ matrix.registry }}:${{github.sha}}-debian-arm64
+              ${{ matrix.registry }}:${{github.sha}}-arm64
 
             docker manifest push ${{ matrix.registry }}:v${{ steps.build-opts.outputs.tag }}
           fi
@@ -269,12 +269,22 @@ jobs:
       - name: Push alpine image
         run: |
           docker pull ${{ matrix.registry }}:${{github.sha}}-alpine-amd64
-          docker tag ${{ matrix.registry }}:${{github.sha}}-alpine-amd64 ${{ matrix.registry }}:alpine
-          docker push ${{ matrix.registry }}:latest-alpine
+          docker pull --platform=linux/arm64 ${{ matrix.registry }}:${{github.sha}}-alpine-arm64
+
+          docker manifest create \
+            ${{ matrix.registry }}:latest-alpine \
+            ${{ matrix.registry }}:${{github.sha}}-alpine-amd64 \
+            ${{ matrix.registry }}:${{github.sha}}-alpine-arm64
+
+          docker manifest push ${{ matrix.registry }}:latest-alpine
 
           if [ -n "${{ steps.build-opts.outputs.tag }}" ]; then
-            docker tag ${{ matrix.registry }}:${{github.sha}}-amd64 ${{ matrix.registry }}:v${{ steps.build-opts.outputs.tag }}-alpine-amd64
-            docker push ${{ matrix.registry }}:v${{ steps.build-opts.outputs.tag }}-alpine-amd64
+            docker manifest create \
+              ${{ matrix.registry }}:v${{ steps.build-opts.outputs.tag }}-alpine \
+              ${{ matrix.registry }}:${{github.sha}}-alpine-amd64 \
+              ${{ matrix.registry }}:${{github.sha}}-alpine-arm64
+
+            docker manifest push ${{ matrix.registry }}:v${{ steps.build-opts.outputs.tag }}-alpine
           fi
 
       - name: Push debian image
