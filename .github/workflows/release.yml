@@ -175,7 +175,7 @@ jobs:
         with:
           context: ${{matrix.target}}
           file: docker/Dockerfile
-          platforms: linux/${{matrix.target}}
+          platform: linux/${{matrix.target}}
           target: base
           push: true
           tags: |
@@ -187,7 +187,7 @@ jobs:
         with:
           context: ${{matrix.target}}
           file: docker/Dockerfile
-          platforms: linux/${{matrix.target}}
+          platform: linux/${{matrix.target}}
           target: debian
           push: true
           tags: |
@@ -200,7 +200,7 @@ jobs:
         with:
           context: ${{matrix.target}}
           file: docker/Dockerfile
-          platforms: linux/${{matrix.target}}
+          platform: linux/${{matrix.target}}
           target: alpine
           push: true
           tags: |
